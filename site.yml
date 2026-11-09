@@ -1,0 +1,16 @@
+---
+# TODO: one playbook, two plays.
+#
+# Play 1, every server ("servers"): the baseline
+#   - packages curl, htop and jq are installed
+#   - a system user and group `pollie` (no login shell) and the directory /opt/pollie owned by it
+#   - /etc/motd says "Managed by Ansible" and names the server (use the inventory name)
+#
+# Play 2, only the web server: Nginx serving Pollie's static site
+#   - nginx installed, enabled and running
+#   - Pollie's web files (pollie/web/ in this repo) copied to /var/www/pollie
+#   - the site config rendered from templates/pollie.conf.j2 to /etc/nginx/conf.d/pollie.conf
+#   - Ubuntu's default site removed, or it fights for port 80
+#   - a handler that reloads Nginx, and only when the config really changed
+#
+# Rules: use modules, not `shell`/`command`/`raw`. Running it twice must change nothing.
