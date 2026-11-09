@@ -45,7 +45,7 @@ ansible --version
 Log in to the web server:
 
 ```bash
-ssh -i keys/id_ed25519 -p 2221 -o StrictHostKeyChecking=no deploy@127.0.0.1
+ssh -i keys/id_ed25519 -o IdentitiesOnly=yes -p 2221 -o StrictHostKeyChecking=no deploy@127.0.0.1
 ```
 
 Look around: `hostname`, `cat /etc/os-release | head -2`, `which nginx`, `sudo apt-get update`. Then log out with `exit`.
@@ -58,7 +58,7 @@ Look around: `hostname`, `cat /etc/os-release | head -2`, `which nginx`, `sudo a
 
 Ansible needs two things before it can do anything: a list of machines and the settings to reach them.
 
-1. Fill in `inventory.ini`. You need the groups `web`, `app` and `db` (one host each, named `pa-web`, `pa-app`, `pa-db`) and a group `servers` that **contains the three groups** (a group of groups: `[servers:children]`). The user and key are the same for every server, so set them once for the group, not three times.
+1. Fill in `inventory.ini`. You need the groups `web`, `app` and `db` (one host each, named `pa-web`, `pa-app`, `pa-db`) and a group `servers` that **contains the three groups** (a group of groups: `[servers:children]`). The user and key are the same for every server, so set them once for the group, not three times. Also set `ansible_ssh_common_args=-o IdentitiesOnly=yes`: if your SSH agent holds many keys, SSH offers them all before the right one and the server hangs up with *Too many authentication failures*.
 2. Create `ansible.cfg` so you do not have to type `-i inventory.ini` every time. Tell it which inventory to use, that the servers' host keys are not checked (**only acceptable here**: the servers are brand new every time), and that Ansible should find the Python interpreter by itself.
 3. Look at what you wrote:
 
