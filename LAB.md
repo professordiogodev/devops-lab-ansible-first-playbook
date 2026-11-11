@@ -2,11 +2,19 @@
 
 ## The situation
 
-Monday morning. Three new servers arrived for the polls application: one for the website, one for the API and worker, one for the database. They are fresh Ubuntu installs and nobody has touched them.
+```text
+CONFIGURATION AUDIT - the polls application servers
+Scope       : 3 new Ubuntu servers (website, API + worker, database)
+Auditor     : your manager, who has seen this go wrong before
+Previous audit : "Six months later nobody could say what was installed where.
+                  One server had a hand-edited config nobody dared touch.
+                  Rebuilding it took a week."
+Control C1  : every change goes through code
+Control C2  : the code can be run again at any time without breaking anything
+Control C3  : drift is detected and repaired by the code, not by a person
+```
 
-The last team set up their servers by hand. Six months later nobody could say what was installed where, one server had a hand-edited config that nobody dared touch, and rebuilding it took a week. Your manager wants the opposite: **every change goes through code, and the code can be run again at any time without breaking anything.**
-
-You will describe the servers in an inventory, configure them with one playbook, and then survive three colleagues who log in to "just fix one thing".
+The servers arrived on Monday morning, fresh Ubuntu installs that nobody has touched. You will describe them in an inventory, configure them with one playbook (controls C1 and C2), and then survive three colleagues who log in to "just fix one thing" (control C3). The audit has two acts: **Act 1** builds the playbook, **Act 2** lets the drift in on purpose and repairs it with Ansible and nothing else.
 
 > **Your mission**
 > - Log in to a server by hand once, so you know what Ansible replaces
@@ -19,7 +27,7 @@ You will describe the servers in an inventory, configure them with one playbook,
 
 ---
 
-## Part 0 - Set the scene
+## Part 0 - Act 1: set the scene
 
 Fork this repository, clone your fork, and run:
 
@@ -147,7 +155,13 @@ You should see Pollie's page and your `X-Served-By` header. Open it in a browser
 
 ---
 
-## Part 5 - Colleagues with SSH access
+## Interval - Thursday afternoon
+
+The servers have been running for three days. Three colleagues have SSH access, and each has a reason to use it.
+
+---
+
+## Part 5 - Act 2: colleagues with SSH access
 
 Real servers do not stay as you left them. Run:
 
